@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Testing Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .sidebar {
+            transition: all 0.3s;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .active-tab {
+            border-bottom: 3px solid #3b82f6;
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Sidebar -->
+    <div class="fixed inset-y-0 left-0 bg-white shadow-lg w-64 px-4 py-6 hidden md:block sidebar">
+        <div class="flex items-center mb-8">
+            <img src="logo.png" alt="Company Logo" class="h-8 mr-2">
+            <span class="text-xl font-semibold text-gray-800">PerfAI</span>
+        </div>
+        <nav>
+            <div class="mb-6">
+                <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">DASHBOARD</h3>
+                <a href="#" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-white bg-blue-100 text-blue-800">
+                    <i data-feather="home" class="mr-3 text-blue-600"></i>
+                    Home
+                </a>
+            </div>
+            <div class="mb-6">
+                <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">PROJECTS</h3>
+                <a href="project-a.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-1">
+                    <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                    Project A
+                </a>
+                <a href="project-b.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-1">
+                    <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                    Project B
+                </a>
+                <a href="project-c.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-1">
+                    <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                    Project C
+                </a>
+                <a href="project-d.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-1">
+                    <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                    Project D
+                </a>
+                <a href="project-e.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-1">
+                    <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                    Project E
+                </a>
+                <a href="project-f.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-1">
+                    <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                    Project F
+                </a>
+                <a href="project-g.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-1">
+                    <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                    Project G
+                </a>
+            </div>
+            <div>
+                <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">AI TOOLS</h3>
+                <a href="ai-prediction.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100">
+                    <i data-feather="activity" class="mr-3 text-gray-500"></i>
+                    AI Prediction
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Mobile header -->
+    <div class="md:hidden bg-white shadow-sm">
+        <div class="flex items-center justify-between px-4 py-3">
+            <div class="flex items-center">
+                <img src="logo.png" alt="Company Logo" class="h-8 mr-2">
+                <span class="text-lg font-semibold text-gray-800">PerfAI</span>
+            </div>
+            <button id="mobileMenuButton" class="text-gray-500">
+                <i data-feather="menu"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile sidebar -->
+    <div id="mobileSidebar" class="fixed inset-0 bg-white z-50 hidden md:hidden">
+        <div class="flex justify-end p-4">
+            <button id="closeMobileMenu" class="text-gray-500">
+                <i data-feather="x"></i>
+            </button>
+        </div>
+        <div class="px-6 py-4">
+            <nav>
+                <div class="mb-6">
+                    <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">DASHBOARD</h3>
+                    <a href="#" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-white bg-blue-100 text-blue-800 mb-2">
+                        <i data-feather="home" class="mr-3 text-blue-600"></i>
+                        Home
+                    </a>
+                </div>
+                <div class="mb-6">
+                    <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">PROJECTS</h3>
+                    <a href="project-a.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-2">
+                        <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                        Project A
+                    </a>
+                    <a href="project-b.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-2">
+                        <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                        Project B
+                    </a>
+                    <a href="project-c.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-2">
+                        <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                        Project C
+                    </a>
+                    <a href="project-d.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-2">
+                        <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                        Project D
+                    </a>
+                    <a href="project-e.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-2">
+                        <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                        Project E
+                    </a>
+                    <a href="project-f.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-2">
+                        <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                        Project F
+                    </a>
+                    <a href="project-g.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-2">
+                        <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                        Project G
+                    </a>
+                </div>
+                <div>
+                    <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">AI TOOLS</h3>
+                    <a href="ai-prediction.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100">
+                        <i data-feather="activity" class="mr-3 text-gray-500"></i>
+                        AI Prediction
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="md:ml-64">
+        <main class="p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold text-gray-800">Performance Testing Dashboard</h1>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <i data-feather="bell" class="text-gray-500"></i>
+                        <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                            <i data-feather="user" class="text-blue-600"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">Admin</span>
+                    </div>
+                    <button onclick="window.location.href='index.html'" class="ml-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors text-sm font-medium">Logout</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="dashboard-card bg-white rounded-lg shadow p-6 transition-all duration-200 hover:shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-sm font-medium text-gray-500">Total Projects</h3>
+                        <i data-feather="database" class="text-blue-500"></i>
+                    </div>
+                    <div class="text-2xl font-bold text-gray-800">7</div>
+                    <div class="text-xs text-gray-500 mt-1">Active performance tests</div>
+                </div>
+                <div class="dashboard-card bg-white rounded-lg shadow p-6 transition-all duration-200 hover:shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-sm font-medium text-gray-500">Tests Today</h3>
+                        <i data-feather="clock" class="text-green-500"></i>
+                    </div>
+                    <div class="text-2xl font-bold text-gray-800">24</div>
+                    <div class="text-xs text-gray-500 mt-1">+3 from yesterday</div>
+                </div>
+                <div class="dashboard-card bg-white rounded-lg shadow p-6 transition-all duration-200 hover:shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-sm font-medium text-gray-500">Errors</h3>
+                        <i data-feather="alert-triangle" class="text-red-500"></i>
+                    </div>
+                    <div class="text-2xl font-bold text-gray-800">8</div>
+                    <div class="text-xs text-gray-500 mt-1">-2 from yesterday</div>
+                </div>
+                <div class="dashboard-card bg-white rounded-lg shadow p-6 transition-all duration-200 hover:shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-sm font-medium text-gray-500">AI Predictions</h3>
+                        <i data-feather="activity" class="text-purple-500"></i>
+                    </div>
+                    <div class="text-2xl font-bold text-gray-800">15</div>
+                    <div class="text-xs text-gray-500 mt-1">Generated this week</div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 mb-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-semibold text-gray-800">Recent Test Activity</h2>
+                    <button class="text-sm text-blue-600 hover:text-blue-800">View All</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Project</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Test Type</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duration</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Errors</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                            <i data-feather="folder" class="text-blue-600"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900">Project A</div>
+                                            <div class="text-sm text-gray-500">Load Test</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">API Performance</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Completed</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1h 23m</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
+                                    <a href="#" class="text-gray-600 hover:text-gray-900">Report</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                            <i data-feather="folder" class="text-blue-600"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900">Project B</div>
+                                            <div class="text-sm text-gray-500">Stress Test</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">UI Performance</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Running</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">45m</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">0</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">Monitor</a>
+                                    <a href="#" class="text-gray-600 hover:text-gray-900">Stop</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                            <i data-feather="folder" class="text-blue-600"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900">Project D</div>
+                                            <div class="text-sm text-gray-500">Soak Test</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">Database</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Failed</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2h 10m</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">12</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">Errors</a>
+                                    <a href="#" class="text-gray-600 hover:text-gray-900">Retry</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <h2 class="text-lg font-semibold text-gray-800 mb-4">Projects Overview</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <a href="project-a.html" class="dashboard-card bg-white rounded-lg shadow p-6 transition-all duration-200 hover:shadow-lg flex flex-col items-center justify-center">
+                    <div class="h-16 w-16 rounded-full bg-blue-100 flex items-center justify-center mb-4">
+                        <i data-feather="folder" class="text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-800 mb-1">Project A</h3>
+                    <p class="text-sm text-gray-500 text-center">API Performance Testing</p>
+                </a>
+                <a href="project-b.html" class="dashboard-card bg-white rounded-lg shadow p-6 transition-all duration-200 hover:shadow-lg flex flex-col items-center justify-center">
+                    <div class="h-16 w-16 rounded-full bg-green-100 flex items-center justify-center mb-4">
+                        <i data-feather="folder" class="text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-800 mb-1">Project B</h3>
+                    <p class="text-sm text-gray-500 text-center">UI Performance Testing</p>
+                </a>
+                <a href="project-c.html" class="dashboard-card bg-white rounded-lg shadow p-6 transition-all duration-200 hover:shadow-lg flex flex-col items-center justify-center">
+                    <div class="h-16 w-16 rounded-full bg-purple-100 flex items-center justify-center mb-4">
+                        <i data-feather="folder" class="text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-800 mb-1">Project C</h3>
+                    <p class="text-sm text-gray-500 text-center">Database Performance</p>
+                </a>
+                <a href="ai-prediction.html" class="dashboard-card bg-white rounded-lg shadow p-6 transition-all duration-200 hover:shadow-lg flex flex-col items-center justify-center">
+                    <div class="h-16 w-16 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
+                        <i data-feather="activity" class="text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-800 mb-1">AI Prediction</h3>
+                    <p class="text-sm text-gray-500 text-center">Performance Forecasting</p>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            document.getElementById('mobileSidebar').classList.remove('hidden');
+        });
+        
+        document.getElementById('closeMobileMenu').addEventListener('click', function() {
+            document.getElementById('mobileSidebar').classList.add('hidden');
+        });
+        
+        // Initialize charts
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+            
+            // Performance chart
+            const ctx = document.createElement('canvas');
+            ctx.id = 'performanceChart';
+            document.querySelector('.grid').appendChild(ctx);
+            
+            const performanceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                    datasets: [
+                        {
+                            label: 'Avg Response Time (ms)',
+                            data: [120, 190, 170, 220, 180, 160, 200],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.05)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Error Rate (%)',
+                            data: [2, 3, 1, 4, 2, 3, 5],
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.05)',
+                            tension: 0.4,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

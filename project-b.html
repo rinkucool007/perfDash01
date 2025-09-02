@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project A | Performance Testing Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .sidebar {
+            transition: all 0.3s;
+        }
+        .active-tab {
+            border-bottom: 3px solid #3b82f6;
+            color: #3b82f6;
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Sidebar -->
+    <div class="fixed inset-y-0 left-0 bg-white shadow-lg w-64 px-4 py-6 hidden md:block sidebar">
+        <div class="flex items-center mb-8">
+            <img src="logo.png" alt="Company Logo" class="h-8 mr-2">
+            <span class="text-xl font-semibold text-gray-800">PerfAI</span>
+        </div>
+        <nav>
+            <div class="mb-6">
+                <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">DASHBOARD</h3>
+                <a href="dashboard.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100">
+                    <i data-feather="home" class="mr-3 text-gray-500"></i>
+                    Home
+                </a>
+            </div>
+            <div class="mb-6">
+                <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">PROJECTS</h3>
+                <a href="project-a.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-white bg-blue-100 text-blue-800 mb-1">
+                    <i data-feather="folder" class="mr-3 text-blue-600"></i>
+                    Project A
+                </a>
+                <a href="project-b.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-1">
+                    <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                    Project B
+                </a>
+                <a href="project-c.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-1">
+                    <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                    Project C
+                </a>
+                <a href="project-d.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-1">
+                    <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                    Project D
+                </a>
+                <a href="project-e.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-1">
+                    <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                    Project E
+                </a>
+                <a href="project-f.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-1">
+                    <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                    Project F
+                </a>
+                <a href="project-g.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-1">
+                    <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                    Project G
+                </a>
+            </div>
+            <div>
+                <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">AI TOOLS</h3>
+                <a href="ai-prediction.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100">
+                    <i data-feather="activity" class="mr-3 text-gray-500"></i>
+                    AI Prediction
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Mobile header -->
+    <div class="md:hidden bg-white shadow-sm">
+        <div class="flex items-center justify-between px-4 py-3">
+            <div class="flex items-center">
+                <img src="logo.png" alt="Company Logo" class="h-8 mr-2">
+                <span class="text-lg font-semibold text-gray-800">PerfAI</span>
+            </div>
+            <button id="mobileMenuButton" class="text-gray-500">
+                <i data-feather="menu"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile sidebar -->
+    <div id="mobileSidebar" class="fixed inset-0 bg-white z-50 hidden md:hidden">
+        <div class="flex justify-end p-4">
+            <button id="closeMobileMenu" class="text-gray-500">
+                <i data-feather="x"></i>
+            </button>
+        </div>
+        <div class="px-6 py-4">
+            <nav>
+                <div class="mb-6">
+                    <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">DASHBOARD</h3>
+                    <a href="dashboard.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-2">
+                        <i data-feather="home" class="mr-3 text-gray-500"></i>
+                        Home
+                    </a>
+                </div>
+                <div class="mb-6">
+                    <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">PROJECTS</h3>
+                    <a href="project-a.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-white bg-blue-100 text-blue-800 mb-2">
+                        <i data-feather="folder" class="mr-3 text-blue-600"></i>
+                        Project A
+                    </a>
+                    <a href="project-b.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-2">
+                        <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                        Project B
+                    </a>
+                    <a href="project-c.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-2">
+                        <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                        Project C
+                    </a>
+                    <a href="project-d.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-2">
+                        <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                        Project D
+                    </a>
+                    <a href="project-e.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-2">
+                        <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                        Project E
+                    </a>
+                    <a href="project-f.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-2">
+                        <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                        Project F
+                    </a>
+                    <a href="project-g.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 mb-2">
+                        <i data-feather="folder" class="mr-3 text-gray-500"></i>
+                        Project G
+                    </a>
+                </div>
+                <div>
+                    <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">AI TOOLS</h3>
+                    <a href="ai-prediction.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100">
+                        <i data-feather="activity" class="mr-3 text-gray-500"></i>
+                        AI Prediction
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="md:ml-64">
+        <main class="p-6">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">Project A</h1>
+                    <p class="text-sm text-gray-500">API Performance Testing</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="flex items-center text-sm text-blue-600 hover:text-blue-800">
+                        <i data-feather="refresh-cw" class="mr-1 w-4 h-4"></i>
+                        Refresh
+                    </button>
+                    <div class="flex items-center">
+                        <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                            <i data-feather="user" class="text-blue-600"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">Admin</span>
+                    </div>
+                    <button onclick="window.location.href='index.html'" class="ml-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors text-sm font-medium">Logout</button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow mb-8">
+                <div class="border-b border-gray-200">
+                    <nav class="flex -mb-px">
+                        <a href="#" id="reportsTab" class="active-tab py-4 px-6 text-center border-b-2 font-medium text-sm">
+                            Test Reports
+                        </a>
+                        <a href="#" id="errorsTab" class="py-4 px-6 text-center border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                            Test Errors
+                        </a>
+                    </nav>
+                </div>
+                <div class="p-6">
+                    <div id="reportsContent">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-lg font-semibold text-gray-800">Latest Test Report</h2>
+                            <div class="flex space-x-3">
+                                <button class="px-3 py-1 text-sm bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100">
+                                    <i data-feather="download" class="w-4 h-4 inline mr-1"></i>
+                                    Export
+                                </button>
+                                <button class="px-3 py-1 text-sm bg-gray-50 text-gray-700 rounded-md hover:bg-gray-100">
+                                    <i data-feather="settings" class="w-4 h-4 inline mr-1"></i>
+                                    Configure
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="text-sm font-medium text-gray-500">Expected TPS</h3>
+                                    <i data-feather="target" class="text-blue-500"></i>
+                                </div>
+                                <div class="text-2xl font-bold text-gray-800">1,250</div>
+                                <div class="text-xs text-gray-500 mt-1">Transactions per second</div>
+                            </div>
+                            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="text-sm font-medium text-gray-500">Achieved TPS</h3>
+                                    <i data-feather="bar-chart-2" class="text-green-500"></i>
+                                </div>
+                                <div class="text-2xl font-bold text-gray-800">1,180</div>
+                                <div class="text-xs text-gray-500 mt-1">94.4% of target</div>
+                            </div>
+                            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="text-sm font-medium text-gray-500">Error Rate</h3>
+                                    <i data-feather="alert-circle" class="text-red-500"></i>
+                                </div>
+                                <div class="text-2xl font-bold text-gray-800">1.2%</div>
+                                <div class="text-xs text-gray-500 mt-1">Within acceptable range</div>
+                            </div>
+                            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="text-sm font-medium text-gray-500">90% Line</h3>
+                                    <i data-feather="clock" class="text-purple-500"></i>
+                                </div>
+                                <div class="text-2xl font-bold text-gray-800">320ms</div>
+                                <div class="text-xs text-gray-500 mt-1">Response time</div>
+                            </div>
+                            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="text-sm font-medium text-gray-500">Target Samples</h3>
+                                    <i data-feather="database" class="text-yellow-500"></i>
+                                </div>
+                                <div class="text-2xl font-bold text-gray-800">500,000</div>
+                                <div class="text-xs text-gray-500 mt-1">Total requests</div>
+                            </div>
+                            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="text-sm font-medium text-gray-500">Submitted Samples</h3>
+                                    <i data-feather="check-circle" class="text-green-500"></i>
+                                </div>
+                                <div class="text-2xl font-bold text-gray-800">498,750</div>
+                                <div class="text-xs text-gray-500 mt-1">99.75% completed</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Performance Over Time</h3>
+                            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                <div class="chart-container">
+                                    <canvas id="performanceChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Recent Test Runs</h3>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Test ID</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duration</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">TPS</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Error Rate</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#PA-1024</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2023-06-15 14:30</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1h 23m</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1,180</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1.2%</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Completed</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
+                                                <a href="#" class="text-gray-600 hover:text-gray-900">Compare</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#PA-1023</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2023-06-14 09:15</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1h 45m</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1,210</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">0.8%</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Completed</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
+                                                <a href="#" class="text-gray-600 hover:text-gray-900">Compare</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#PA-1022</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2023-06-12 16:45</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2h 10m</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1,050</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3.5%</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Warning</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
+                                                <a href="#" class="text-gray-600 hover:text-gray-900">Compare</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="errorsContent" class="hidden">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-lg font-semibold text-gray-800">Test Errors</h2>
+                            <div class="flex space-x-3">
+                                <button class="px-3 py-1 text-sm bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100">
+                                    <i data-feather="download" class="w-4 h-4 inline mr-1"></i>
+                                    Export
+                                </button>
+                                <button class="px-3 py-1 text-sm bg-gray-50 text-gray-700 rounded-md hover:bg-gray-100">
+                                    <i data-feather="filter" class="w-4 h-4 inline mr-1"></i>
+                                    Filter
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Error Distribution</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                    <div class="chart-container">
+                                        <canvas id="errorTypeChart"></canvas>
+                                    </div>
+                                </div>
+                                <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                    <div class="chart-container">
+                                        <canvas id="errorTrendChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Error Details</h3>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Transaction</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">API Endpoint</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Error Code</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Account</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Count</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Create Order</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">/api/v1/orders</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">400</td>
+                                            <td class="px-6 py-4 text-sm text-gray-500">Invalid product ID</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ACC-78945</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">24</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Get User Profile</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">/api/v1/users/{id}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">404</td>
+                                            <td class="px-6 py-4 text-sm text-gray-500">User not found</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ACC-12345</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">18</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Update Inventory</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">/api/v1/inventory</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">403</td>
+                                            <td class="px-6 py-4 text-sm text-gray-500">Unauthorized access</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ACC-45678</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">12</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Process Payment</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">/api/v1/payments</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">500</td>
+                                            <td class="px-6 py-4 text-sm text-gray-500">Internal server error</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ACC-98765</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">8</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Search Products</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">/api/v1/products</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">503</td>
+                                            <td class="px-6 py-4 text-sm text-gray-500">Service unavailable</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ACC-54321</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">5</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            document.getElementById('mobileSidebar').classList.remove('hidden');
+        });
+        
+        document.getElementById('closeMobileMenu').addEventListener('click', function() {
+            document.getElementById('mobileSidebar').classList.add('hidden');
+        });
+        
+        // Tab switching
+        document.getElementById('reportsTab').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('reportsContent').classList.remove('hidden');
+            document.getElementById('errorsContent').classList.add('hidden');
+            document.getElementById('reportsTab').classList.add('active-tab');
+            document.getElementById('errorsTab').classList.remove('active-tab');
+        });
+        
+        document.getElementById('errorsTab').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('reportsContent').classList.add('hidden');
+            document.getElementById('errorsContent').classList.remove('hidden');
+            document.getElementById('reportsTab').classList.remove('active-tab');
+            document.getElementById('errorsTab').classList.add('active-tab');
+        });
+        
+        // Initialize charts
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+            
+            // Performance chart
+            const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+            const performanceChart = new Chart(performanceCtx, {
+                type: 'line',
+                data: {
+                    labels: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00'],
+                    datasets: [
+                        {
+                            label: 'Response Time (ms)',
+                            data: [120, 135, 150, 145, 160, 155, 170],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.05)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'TPS',
+                            data: [800, 950, 1100, 1050, 1000, 1150, 1200],
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.05)',
+                            tension: 0.4,
+                            fill: true,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        }
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Response Time (ms)'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Transactions Per Second'
+                            },
+                            grid: {
+                                drawOnChartArea: false,
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Error type chart
+            const errorTypeCtx = document.getElementById('errorTypeChart').getContext('2d');
+            const errorTypeChart = new Chart(errorTypeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['400 Bad Request', '403 Forbidden', '404 Not Found', '500 Server Error', '503 Service Unavailable'],
+                    datasets: [{
+                        data: [35, 20, 25, 15, 5],
+                        backgroundColor: [
+                            '#3b82f6',
+                            '#f59e0b',
+                            '#ef4444',
+                            '#8b5cf6',
+                            '#64748b'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        }
+                    }
+                }
+            });
+            
+            // Error trend chart
+            const errorTrendCtx = document.getElementById('errorTrendChart').getContext('2d');
+            const errorTrendChart = new Chart(errorTrendCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Errors',
+                        data: [12, 19, 15, 24, 18, 10, 8],
+                        backgroundColor: '#ef4444',
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

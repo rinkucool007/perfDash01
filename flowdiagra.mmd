@@ -1,0 +1,58 @@
+flowchart TD
+    subgraph CICD [CI/CD Pipeline - GitHub Actions]
+        direction TB
+        GH[GitHub Repository]
+        GA[GitHub Actions Runner]
+        JM[JMeter Performance Test]
+        T[Telegraf Metrics Collector]
+    end
+
+    subgraph DataStorage [Data Storage Layer]
+        I[InfluxDB<br>Primary Time-Series Database<br>Stores JMeter & System Metrics]
+        P[Prometheus<br>Scrapes Application Metrics]
+    end
+
+    subgraph Monitoring [Monitoring & Analysis Layer]
+        G[Grafana<br>Performance Dashboards & Visualization]
+        GenAI[Generative AI Engine<br>NLQ, Analysis & Reporting]
+    end
+
+    subgraph Targets [Test Targets]
+        A1[Application Server 1]
+        A2[Application Server 2]
+        DB[Database Server]
+    end
+
+    subgraph Outputs [Outputs & Consumers]
+        U[Development Team]
+        R[Automated Reports]
+        Alert[Alert Notifications]
+    end
+
+    %% Data flow
+    GH -- triggers --> GA
+    GA -- runs --> JM
+    JM -- sends results via --> T
+    T -- writes metrics --> I
+    
+    A1 -- exposed metrics --> P
+    A2 -- exposed metrics --> P
+    DB -- exposed metrics --> P
+    
+    P -- remote writes --> I
+    
+    I -- queries --> G
+    I -- provides data context --> GenAI
+    G -- requests analysis --> GenAI
+    
+    GenAI -- generates insights --> G
+    GenAI -- creates narrative reports --> R
+    
+    G -- displays results --> U
+    G -- triggers --> Alert
+
+    style CICD fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    style DataStorage fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    style Monitoring fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
+    style Targets fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style Outputs fill:#ffebee,stroke:#b71c1c,stroke-width:2px

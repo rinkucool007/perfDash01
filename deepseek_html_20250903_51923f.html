@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Testing Monitoring Architecture</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin-bottom: 10px;
+        }
+        .description {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        .architecture {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .components {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .component-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .component-card:hover {
+            transform: translateY(-5px);
+        }
+        .component-card h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .component-card ul {
+            list-style-type: none;
+        }
+        .component-card li {
+            padding: 5px 0;
+            border-bottom: 1px dotted #eee;
+        }
+        .diagram {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .mermaid {
+            min-width: 1000px;
+        }
+        .workflow {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .workflow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .step {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+        .step-number {
+            background: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+        .step-content {
+            flex: 1;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: #7f8c8d;
+        }
+        @media (max-width: 768px) {
+            .components {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Performance Testing Monitoring Architecture</h1>
+            <p>Integrating JMeter, GitHub Actions, InfluxDB, Prometheus, Grafana, and GenAI</p>
+        </header>
+
+        <div class="description">
+            <p>This architecture provides a comprehensive solution for monitoring and analyzing performance tests with AI-powered insights and reporting.</p>
+        </div>
+
+        <div class="architecture">
+            <h2>Architecture Diagram</h2>
+            <div class="diagram">
+                <div class="mermaid">
+                    flowchart TD
+                    subgraph CICD [CI/CD Pipeline - GitHub Actions]
+                        direction TB
+                        GH[GitHub Repository]
+                        GA[GitHub Actions Runner]
+                        JM[JMeter Performance Test]
+                        T[Telegraf Metrics Collector]
+                    end
+
+                    subgraph DataStorage [Data Storage Layer]
+                        I[InfluxDB<br>Primary Time-Series Database<br>Stores JMeter & System Metrics]
+                        P[Prometheus<br>Scrapes Application Metrics]
+                    end
+
+                    subgraph Monitoring [Monitoring & Analysis Layer]
+                        G[Grafana<br>Performance Dashboards & Visualization]
+                        GenAI[Generative AI Engine<br>NLQ, Analysis & Reporting]
+                    end
+
+                    subgraph Targets [Test Targets]
+                        A1[Application Server 1]
+                        A2[Application Server 2]
+                        DB[Database Server]
+                    end
+
+                    subgraph Outputs [Outputs & Consumers]
+                        U[Development Team]
+                        R[Automated Reports]
+                        Alert[Alert Notifications]
+                    end
+
+                    %% Data flow
+                    GH -- triggers --> GA
+                    GA -- runs --> JM
+                    JM -- sends results via --> T
+                    T -- writes metrics --> I
+                    
+                    A1 -- exposed metrics --> P
+                    A2 -- exposed metrics --> P
+                    DB -- exposed metrics --> P
+                    
+                    P -- remote writes --> I
+                    
+                    I -- queries --> G
+                    I -- provides data context --> GenAI
+                    G -- requests analysis --> GenAI
+                    
+                    GenAI -- generates insights --> G
+                    GenAI -- creates narrative reports --> R
+                    
+                    G -- displays results --> U
+                    G -- triggers --> Alert
+
+                    style CICD fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+                    style DataStorage fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+                    style Monitoring fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
+                    style Targets fill:#fff3e0,stroke:#e65100,stroke-width:2px
+                    style Outputs fill:#ffebee,stroke:#b71c1c,stroke-width:2px
+                </div>
+            </div>
+        </div>
+
+        <div class="components">
+            <div class="component-card">
+                <h3>CI/CD Pipeline</h3>
+                <ul>
+                    <li><strong>GitHub Actions</strong>: Orchestrates the performance testing workflow</li>
+                    <li><strong>JMeter</strong>: Executes performance tests against application</li>
+                    <li><strong>Telegraf</strong>: Collects and forwards metrics to InfluxDB</li>
+                </ul>
+            </div>
+            <div class="component-card">
+                <h3>Data Storage</h3>
+                <ul>
+                    <li><strong>InfluxDB</strong>: High-performance time-series database for test results</li>
+                    <li><strong>Prometheus</strong>: Collects system/application metrics from targets</li>
+                </ul>
+            </div>
+            <div class="component-card">
+                <h3>Monitoring & Analysis</h3>
+                <ul>
+                    <li><strong>Grafana</strong>: Visualizes performance data through dashboards</li>
+                    <li><strong>GenAI</strong>: Provides natural language queries and automated insights</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="workflow">
+            <h2>Performance Testing Workflow</h2>
+            <div class="workflow-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <strong>Code Commit/Push</strong>: Developer pushes code to GitHub repository
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <strong>GitHub Actions Trigger</strong>: Workflow is triggered on main branch
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <strong>JMeter Test Execution</strong>: Performance tests run against application servers
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <strong>Metrics Collection</strong>: Telegraf collects JMeter results and system metrics
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <strong>Data Storage</strong>: Metrics are stored in InfluxDB, Prometheus scrapes application metrics
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <div class="step-content">
+                        <strong>Visualization & Analysis</strong>: Grafana displays results, GenAI provides insights
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">7</div>
+                    <div class="step-content">
+                        <strong>Reporting & Alerts</strong>: Automated reports generated, alerts sent if thresholds exceeded
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Performance Testing Monitoring Architecture | Designed for DevOps and Performance Engineering Teams</p>
+        </footer>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: false,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html>
